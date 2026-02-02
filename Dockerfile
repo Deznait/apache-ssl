@@ -1,5 +1,5 @@
-# Use an official Apache httpd image
-FROM httpd:2.4
+# Use an official PHP image with Apache
+FROM php:8.2-apache
 
 # Install Nano (optional)
 RUN apt-get update && \
@@ -7,24 +7,19 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy SSL certificate and key
-COPY lacantina.crt /usr/local/apache2/conf/server.crt
-COPY lacantina.key /usr/local/apache2/conf/server.key
+COPY lacantina.crt /etc/ssl/certs/lacantina.crt
+COPY lacantina.key /etc/ssl/private/lacantina.key
 
 # Copy the custom Apache virtual host config
-COPY ./my-httpd-vhosts.conf /usr/local/apache2/conf/extra/httpd-ssl.conf
+COPY ./lacantina-vhosts.conf /etc/apache2/sites-available/my-ssl.conf
 
-# Enable SSL module
-RUN sed -i \
-    -e 's/^#\(LoadModule ssl_module\)/\1/' \
-    -e 's/^#\(LoadModule socache_shmcb_module\)/\1/' \
-    -e 's/^#\(Include conf\/extra\/httpd-ssl.conf\)/\1/' \
-    /usr/local/apache2/conf/httpd.conf
+# Enable SSL module, configure Apache for PHP support, and enable our SSL site configuration
+RUN a2enmod ssl && \
+    a2enmod rewrite && \
+    a2dissite 000-default default-ssl && \
+    a2ensite my-ssl
 
-# Copy your HTML files into the Apache document root
-COPY ./public-html/ /usr/local/apache2/htdocs/
+# NO copies public-html aquí, se monta con volumen
+# COPY ./public-html/ /var/www/html/
 
-# Expose ports
 EXPOSE 80 443
-
-# Start Apache in foreground
-CMD ["httpd-foreground"]
