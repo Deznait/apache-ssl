@@ -10,6 +10,10 @@ RUN apt-get update && \
 COPY lacantina.crt /etc/ssl/certs/lacantina.crt
 COPY lacantina.key /etc/ssl/private/lacantina.key
 
+# Set proper permissions for SSL files
+RUN chmod 600 /etc/ssl/private/lacantina.key && \
+    chmod 644 /etc/ssl/certs/lacantina.crt
+    
 # Copy the custom Apache virtual host config
 COPY ./lacantina-vhosts.conf /etc/apache2/sites-available/my-ssl.conf
 
