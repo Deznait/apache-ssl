@@ -1,6 +1,6 @@
 # La Cantina - Servidor Web con Docker
 
-Aplicación web de ejemplo con **PHP 8.2**, **Apache** y **SSL/HTTPS** ejecutándose en Docker.
+Aplicación web con **PHP 8.2**, **Apache** y **SSL/HTTPS** ejecutándose en Docker.
 
 ## Requisitos Previos
 
@@ -10,146 +10,56 @@ Aplicación web de ejemplo con **PHP 8.2**, **Apache** y **SSL/HTTPS** ejecután
 ## Estructura del Proyecto
 
 ```
-lacantina/
-├── Dockerfile                   # Configuración del contenedor
-├── docker-compose.yml           # Orquestación de servicios
+apache-ssl/
+├── Dockerfile                    # Configuración del contenedor
+├── docker-compose.yml            # Orquestación de servicios
 ├── lacantina-vhosts.conf        # Configuración de Apache
 ├── lacantina.crt                # Certificado SSL
 ├── lacantina.key                # Clave privada SSL
+├── .gitignore                   # Archivos ignorados por Git
 ├── public-html/
-│   └── public/                  # DocumentRoot (accesible vía web)
-│       ├── index.html           # Página principal
-│       └── info.php             # Información del sistema
+│   └── public/                     # DocumentRoot (accesible vía web)
+│       └── <estructura de la aplicación>
 └── README.md                    # Este archivo
 ```
 
-## Instalación y Configuración
+## Instalación y Uso
 
-### Paso 1: Clonar o crear el proyecto
-
-```bash
-# Crear directorio del proyecto
-mkdir lacantina
-cd lacantina
-```
-
-### Paso 2: Crear los archivos de configuración
-
-#### Dockerfile
-
-```dockerfile
-# Use an official PHP image with Apache
-FROM php:8.2-apache
-
-# Install Nano (optional)
-RUN apt-get update && \
-    apt-get install -y nano && \
-    rm -rf /var/lib/apt/lists/*
-
-# Copy SSL certificate and key (solo una vez, no se modificarán)
-COPY lacantina.crt /etc/ssl/certs/lacantina.crt
-COPY lacantina.key /etc/ssl/private/lacantina.key
-
-# Set proper permissions for SSL files
-RUN chmod 600 /etc/ssl/private/lacantina.key && \
-    chmod 644 /etc/ssl/certs/lacantina.crt
-
-# Copy the custom Apache virtual host config
-COPY ./lacantina-vhosts.conf /etc/apache2/sites-available/my-ssl.conf
-
-# Enable SSL module and rewrite
-RUN a2enmod ssl && \
-    a2enmod rewrite && \
-    a2dissite 000-default default-ssl && \
-    a2ensite my-ssl
-
-EXPOSE 80 443
-```
-
-#### docker-compose.yml
-
-```yaml
-version: '3.8'
-
-services:
-  web:
-    build: .
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./public-html:/var/www/html
-      - ./lacantina-vhosts.conf:/etc/apache2/sites-available/my-ssl.conf:ro
-    container_name: lacantina-web
-```
-
-#### lacantina-vhosts.conf
-
-```apache
-<VirtualHost *:443>
-    DocumentRoot "/var/www/html/public"
-    ServerName localhost
-    
-    SSLEngine on
-    SSLCertificateFile "/etc/ssl/certs/lacantina.crt"
-    SSLCertificateKeyFile "/etc/ssl/private/lacantina.key"
-    
-    <Directory "/var/www/html/public">
-        Options Indexes FollowSymLinks
-        AllowOverride All
-        Require all granted
-    </Directory>
-    
-    # Para que /php sea accesible como alias
-    Alias /php "/var/www/html/php"
-    <Directory "/var/www/html/php">
-        Options Indexes FollowSymLinks
-        AllowOverride All
-        Require all granted
-    </Directory>
-    
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
-
-<VirtualHost *:80>
-    ServerName localhost
-    Redirect permanent / https://localhost/
-</VirtualHost>
-```
-
-### Paso 3: Generar certificados SSL autofirmados
+### Paso 1: Clonar el repositorio
 
 ```bash
-# Generar certificado y clave privada (válido por 365 días)
+git clone https://github.com/Deznait/apache-ssl.git
+cd apache-ssl
+```
+
+### Paso 2: Generar certificados SSL (si no los tienes)
+
+```bash
+# Generar certificado y clave privada autofirmados (válido por 365 días)
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
   -keyout lacantina.key \
   -out lacantina.crt \
   -subj "/C=ES/ST=Catalunya/L=Barcelona/O=LaCantina/CN=localhost"
 ```
 
-### Paso 4: Crear estructura de directorios
+### Paso 3: Levantar el contenedor
 
 ```bash
-# Crear directorios
-mkdir -p public-html/public
-
-# Copiar los archivos de la aplicación (ya mostrados anteriormente)
-# - public-html/public/index.html
-# - public-html/public/info.php
-```
-
-## Comandos de Uso
-
-### Construir y levantar el contenedor
-
-```bash
-# Primera vez o después de cambiar Dockerfile/certificados
+# Construir y levantar
 docker-compose up -d --build
 
 # Solo levantar (sin reconstruir)
 docker-compose up -d
 ```
+
+### Paso 4: Acceder a la aplicación
+
+- **HTTPS**: https://localhost (recomendado)
+- **HTTP**: http://localhost (redirige a HTTPS)
+
+**Nota**: Como el certificado es autofirmado, el navegador mostrará una advertencia de seguridad. Puedes aceptarla de forma segura en localhost.
+
+## Comandos Útiles
 
 ### Ver logs del contenedor
 
@@ -164,10 +74,10 @@ docker-compose logs --tail=100
 ### Reiniciar el contenedor
 
 ```bash
-# Después de modificar lacantina-vhosts.conf
+# Reiniciar completamente
 docker-compose restart
 
-# O recargar Apache sin parar el contenedor
+# Recargar Apache sin parar el contenedor
 docker-compose exec web apache2ctl graceful
 ```
 
@@ -177,7 +87,7 @@ docker-compose exec web apache2ctl graceful
 # Abrir shell interactivo
 docker-compose exec web bash
 
-# Editar archivo con nano
+# Editar configuración de Apache
 docker-compose exec web nano /etc/apache2/sites-available/my-ssl.conf
 ```
 
@@ -204,32 +114,18 @@ docker-compose ps
 docker stats lacantina-web
 ```
 
-## Acceso a la Aplicación
-
-Una vez levantado el contenedor:
-
-- **HTTPS**: https://localhost (recomendado)
-- **HTTP**: http://localhost (redirige a HTTPS)
-
-### Páginas disponibles:
-
-1. **Inicio**: https://localhost/
-2. **Información PHP**: https://localhost/info.php
-
-**Nota sobre SSL**: Como el certificado es autofirmado, tu navegador mostrará una advertencia de seguridad. Puedes aceptarla de forma segura en localhost.
-
 ## Desarrollo
 
-### Modificar archivos HTML/PHP
+### Modificar archivos de la aplicación
 
-Los archivos en `public-html/` están montados como volumen, por lo que:
+Los archivos en `public-html/` están montados como volumen:
 
-**Cambios instantáneos** en archivos `.html`  
-**No necesitas reiniciar** el contenedor  
-Solo **refresca el navegador** (F5)
+**Cambios instantáneos** - Modifica HTML, PHP, CSS, JS  
+**No necesitas reiniciar** - Solo refresca el navegador (F5)  
+**Desarrollo en vivo** - Los cambios se reflejan inmediatamente
 
 ```bash
-# Ejemplo: editar página principal
+# Ejemplo: editar un archivo
 nano public-html/public/index.html
 # Guardar y refrescar navegador
 ```
@@ -242,33 +138,182 @@ Si modificas `lacantina-vhosts.conf`:
 # Reiniciar para aplicar cambios
 docker-compose restart
 
-# O recargar gracefully
+# O recargar gracefully (sin downtime)
 docker-compose exec web apache2ctl graceful
 ```
 
-### Añadir nuevas páginas PHP
+## Protección con htpasswd (Autenticación Básica)
+
+Puedes proteger directorios específicos usando autenticación HTTP básica.
+
+### Paso 1: Generar archivo .htpasswd
+
+**Opción A: Con htpasswd (recomendado)**
 
 ```bash
-# Crear nueva página
-nano public-html/public/mipagina.php
+# Instalar htpasswd si no lo tienes:
+# Ubuntu/Debian: sudo apt-get install apache2-utils
+# CentOS/RHEL: sudo yum install httpd-tools
+# macOS: ya viene instalado
+
+# Crear archivo con primer usuario
+htpasswd -c .htpasswd admin
+
+# Añadir más usuarios (sin -c para no sobrescribir)
+htpasswd .htpasswd usuario2
 ```
 
-Contenido de ejemplo:
-```php
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Mi Página</title>
-</head>
-<body>
-    <h1>Hola Mundo</h1>
-    <p>Hora del servidor: <?php echo getServerTime(); ?></p>
-</body>
-</html>
+**Opción B: Generar hash online**
+
+1. Ve a: https://hostingcanada.org/htpasswd-generator/
+2. Introduce usuario y contraseña
+3. Copia el resultado en `.htpasswd`
+
+**Opción C: Con OpenSSL**
+
+```bash
+# Generar hash
+openssl passwd -apr1
+
+# Luego crea .htpasswd manualmente con formato:
+# usuario:hash_generado
 ```
 
-Acceder en: https://localhost/mipagina.php
+### Paso 2: Configurar protección en lacantina-vhosts.conf
+
+Añade un bloque `<Directory>` para el directorio que quieres proteger:
+
+```apache
+# Ejemplo: Proteger /admin
+<Directory "/var/www/html/public/admin">
+    AuthType Basic
+    AuthName "Área Restringida - Administración"
+    AuthUserFile "/var/www/html/.htpasswd"
+    Require valid-user
+</Directory>
+```
+
+### Paso 3: Reiniciar el contenedor
+
+```bash
+docker-compose restart
+```
+
+### Verificar la protección
+
+Accede al directorio protegido (ej: `https://localhost/admin`) y deberías ver un cuadro de diálogo solicitando usuario y contraseña.
+
+### Comandos útiles para htpasswd
+
+```bash
+# Ver usuarios en .htpasswd
+cat .htpasswd | cut -d: -f1
+
+# Cambiar contraseña de usuario existente
+htpasswd .htpasswd usuario_existente
+
+# Eliminar usuario
+htpasswd -D .htpasswd usuario_a_eliminar
+
+# Verificar hash de contraseña
+htpasswd -v .htpasswd usuario
+```
+
+### Proteger múltiples directorios
+
+Puedes usar el mismo archivo `.htpasswd` para varios directorios:
+
+```apache
+<Directory "/var/www/html/public/admin">
+    AuthType Basic
+    AuthName "Área de Administración"
+    AuthUserFile "/var/www/html/.htpasswd"
+    Require valid-user
+</Directory>
+
+<Directory "/var/www/html/public/private">
+    AuthType Basic
+    AuthName "Área Privada"
+    AuthUserFile "/var/www/html/.htpasswd"
+    Require valid-user
+</Directory>
+```
+
+O usar diferentes archivos `.htpasswd` para cada área:
+
+```apache
+<Directory "/var/www/html/public/admin">
+    AuthUserFile "/var/www/html/.htpasswd-admin"
+    # ...
+</Directory>
+
+<Directory "/var/www/html/public/ventas">
+    AuthUserFile "/var/www/html/.htpasswd-ventas"
+    # ...
+</Directory>
+```
+
+## URLs Limpias (sin extensiones)
+
+Para ocultar las extensiones `.php` y `.html` de las URLs, puedes configurarlo de dos formas:
+
+### Opción 1: En lacantina-vhosts.conf (Recomendado)
+
+Añade reglas de rewrite en el bloque `<Directory>`:
+
+```apache
+<Directory "/var/www/html/public">
+    Options -Indexes +FollowSymLinks
+    AllowOverride All
+    Require all granted
+    
+    # Habilitar rewrite
+    RewriteEngine On
+    
+    # Remover extensión .php
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}\.php -f
+    RewriteRule ^(.*)$ $1.php [L]
+    
+    # Remover extensión .html
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}\.html -f
+    RewriteRule ^(.*)$ $1.html [L]
+    
+    # Redirigir 301 si alguien accede con la extensión
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.(php|html) [NC]
+    RewriteRule ^ %1 [R=301,L]
+    
+    DirectoryIndex index.html index.php
+</Directory>
+```
+
+### Opción 2: Con .htaccess
+
+Crea `public-html/public/.htaccess`:
+
+```apache
+RewriteEngine On
+DirectoryIndex index.html index.php
+
+# Remover extensión .php
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php [L]
+
+# Remover extensión .html
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [L]
+
+# Redirigir si se accede con extensión
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.(php|html) [NC]
+RewriteRule ^ %1 [R=301,L]
+```
+
+**Resultado:**
+- `https://localhost/info.php` → `https://localhost/info`
+- `https://localhost/contacto.html` → `https://localhost/contacto`
 
 ## Solución de Problemas
 
@@ -278,10 +323,10 @@ Acceder en: https://localhost/mipagina.php
 # Ver qué proceso usa el puerto 80
 sudo lsof -i :80
 
-# Cambiar puerto en docker-compose.yml
+# O cambiar puerto en docker-compose.yml
 ports:
-  - "8080:80"  # Cambiar 80 por 8080
-  - "8443:443" # Cambiar 443 por 8443
+  - "8080:80"  # Usar puerto 8080 en lugar de 80
+  - "8443:443" # Usar puerto 8443 en lugar de 443
 ```
 
 ### Error: "Permission denied" en certificados
@@ -305,29 +350,42 @@ docker-compose exec web apache2ctl configtest
 docker-compose exec web apache2ctl -M | grep ssl
 ```
 
-### Cambios en PHP no se reflejan
+### Cambios no se reflejan
 
 ```bash
 # Verificar que el volumen está montado correctamente
 docker-compose exec web ls -la /var/www/html/public
 
-# Limpiar caché de PHP (si usas OPcache)
-docker-compose exec web service apache2 reload
+# Recargar Apache
+docker-compose exec web apache2ctl graceful
 ```
 
-### Error "PR_END_OF_FILE_ERROR" en navegador
+### Error "Internal Server Error" con htpasswd
 
 ```bash
-# Verificar que Apache escucha en puerto 443
-docker-compose exec web netstat -tlnp | grep 443
+# Ver logs de Apache
+docker-compose logs web
 
-# Verificar configuración SSL
-docker-compose exec web apache2ctl -S
+# Verificar que existe .htpasswd
+docker-compose exec web ls -la /var/www/html/.htpasswd
+
+# Verificar sintaxis de configuración
+docker-compose exec web apache2ctl configtest
+```
+
+### La autenticación no aparece
+
+```bash
+# Verificar que el módulo auth está habilitado
+docker-compose exec web apache2ctl -M | grep auth
+
+# Revisar configuración de vhosts
+docker-compose exec web cat /etc/apache2/sites-available/my-ssl.conf
 ```
 
 ## Extensiones PHP Adicionales
 
-Si necesitas instalar extensiones PHP adicionales, modifica el `Dockerfile`:
+Si necesitas instalar extensiones PHP, modifica el `Dockerfile`:
 
 ```dockerfile
 # Ejemplo: instalar mysqli y pdo_mysql
@@ -338,24 +396,33 @@ RUN apt-get update && \
     apt-get install -y libpng-dev libjpeg-dev && \
     docker-php-ext-configure gd --with-jpeg && \
     docker-php-ext-install gd
+
+# Ejemplo: instalar extensiones comunes
+RUN docker-php-ext-install \
+    bcmath \
+    exif \
+    opcache \
+    zip
 ```
 
 Luego reconstruir:
+
 ```bash
 docker-compose up -d --build
 ```
 
-## Seguridad
+## Seguridad para Producción
 
-### Producción
+**Importante**: Esta configuración es para desarrollo. Para producción:
 
-Para usar en producción:
-
-1. **Certificado SSL real**: Usa Let's Encrypt o un certificado comercial
-2. **Variables de entorno**: No hardcodear credenciales
-3. **Permisos**: Ajustar permisos de archivos y directorios
-4. **Firewall**: Configurar reglas de firewall apropiadas
-5. **Actualizaciones**: Mantener Docker y la imagen PHP actualizados
+1. **Certificado SSL válido**: Usa Let's Encrypt o certificado comercial
+2. **Contraseñas seguras**: Cambia las credenciales de htpasswd por defecto
+3. **Variables de entorno**: No hardcodear credenciales en código
+4. **Permisos restrictivos**: Configura permisos adecuados en archivos
+5. **Firewall**: Configura reglas de firewall apropiadas
+6. **Actualizaciones**: Mantén Docker y las imágenes actualizadas
+7. **Logs**: Monitoriza logs de acceso y errores
+8. **HTTPS only**: Fuerza HTTPS en todas las conexiones
 
 ### Certificado SSL de producción con Let's Encrypt
 
@@ -363,12 +430,15 @@ Para usar en producción:
 # Instalar certbot
 sudo apt-get install certbot
 
-# Obtener certificado (requiere dominio real)
+# Obtener certificado (requiere dominio real apuntando a tu servidor)
 sudo certbot certonly --standalone -d tudominio.com
 
 # Copiar certificados
 sudo cp /etc/letsencrypt/live/tudominio.com/fullchain.pem lacantina.crt
 sudo cp /etc/letsencrypt/live/tudominio.com/privkey.pem lacantina.key
+
+# Reconstruir contenedor
+docker-compose up -d --build
 ```
 
 ## Recursos Adicionales
@@ -377,14 +447,16 @@ sudo cp /etc/letsencrypt/live/tudominio.com/privkey.pem lacantina.key
 - [Documentación de Apache](https://httpd.apache.org/docs/)
 - [Documentación de Docker](https://docs.docker.com/)
 - [Docker Hub - PHP Official Images](https://hub.docker.com/_/php)
+- [Let's Encrypt - Certificados SSL gratuitos](https://letsencrypt.org/)
 
 ## Soporte
 
 Si encuentras problemas:
 
-1. Revisa los logs: `docker-compose logs -f`
-2. Verifica la configuración: `docker-compose exec web apache2ctl configtest`
-3. Comprueba que los archivos existen: `docker-compose exec web ls -la /var/www/html`
+1. **Revisa los logs**: `docker-compose logs -f`
+2. **Verifica la configuración**: `docker-compose exec web apache2ctl configtest`
+3. **Comprueba archivos**: `docker-compose exec web ls -la /var/www/html`
+4. **Verifica permisos**: `ls -la lacantina.crt lacantina.key`
 
 ## Licencia
 
