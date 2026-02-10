@@ -1,0 +1,14 @@
+{
+    "usuaris": [
+        {
+            "nom": "Mar",
+            "contrasenya": "Meow1234!",
+            "admin": true
+        },
+        {
+            "nom": "Marta",
+            "contrasenya": "Miau4321!",
+            "admin": false
+        }
+    ]
+}

@@ -1,0 +1,48 @@
+/* @use "../abstracts/variables" as *; */
+#copyright-page {
+    background-color: var(--backgroud-color-body);
+    color: var(--color-text);
+
+    .container {
+        // padding: var(--space-xl);
+        padding: 24px;
+        display: flex;
+        flex-wrap: wrap;
+        margin-inline: auto;
+        max-width: 1200px;
+        text-align: center;
+    }
+
+    .h1Copy {
+        color: var(--green1);
+        margin-bottom: var(--space-lg);
+    }
+
+    .copyright-content {
+        color: var(--grey2);
+        line-height: 1.6;
+
+    }
+
+    .h2Copy {
+        color: var(--color-text);
+        font-size: var(--font-lg);
+        margin: var(--space-lg) 0 var(--space-md);
+    }
+
+    .pCopy {
+        margin-bottom: var(--space-md);
+        color: var(--color-text);
+    }
+
+    .addressCopy {
+        font-style: normal;
+        color: var(--green1);
+    }
+
+    footer {
+        position: fixed;
+        width: 99.3%;
+        bottom: 0;
+    }
+}

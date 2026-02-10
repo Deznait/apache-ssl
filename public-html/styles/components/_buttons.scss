@@ -1,0 +1,58 @@
+#contact-page {
+    button {
+        background-color: var(--green1);
+        width: fit-content;
+        border: none;
+        padding: var(--space-xs);
+        transition: ease all 0.2s;
+        font-weight: 600;
+
+        &:hover {
+            background-color: var(--grey2);
+            color: white;
+        }
+    }
+}
+
+button {
+    cursor: pointer;
+
+    &.burgerbtn {
+        display: none;
+        font-size: 1.75rem;
+        padding: var(--space-xs);
+        border: none;
+        cursor: pointer;
+        background: none;
+
+        @media (max-width: 768px) {
+            display: block !important;
+        }
+    }
+
+    &.closebtn {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 1.75rem;
+        border: none;
+        cursor: pointer;
+        padding: var(--space-xs);
+        background: none;
+    }
+}
+
+.envia {
+    background-color: var(--green1);
+    width: fit-content;
+    border: none;
+    padding: var(--space-xs);
+    transition: ease all 0.2s;
+    font-weight: 600;
+
+    &:hover {
+        background-color: var(--grey2);
+        color: white;
+    }
+}

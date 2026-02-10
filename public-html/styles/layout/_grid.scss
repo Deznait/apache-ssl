@@ -1,0 +1,41 @@
+@use '../abstracts' as *;
+
+@media screen and (max-width: $breakpoint-small) {}
+
+@media screen and (min-width:$breakpoint-small) and (max-width:$breakpoint-medium) {
+
+    /* .gridFoot {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+        gap: 20px;
+
+        grid-template-areas:
+            "navFooter navFooter"
+            "adreca adreca"
+            "equip equip"
+            "copyright copyright"
+        ;
+    } */
+}
+
+@media screen and (min-width:$breakpoint-medium) {}
+
+
+
+// Grid pel footer
+#nav-footer {
+    grid-area: navFooter;
+}
+
+#adreca-footer {
+    grid-area: adreca;
+}
+
+#equip {
+    grid-area: equip;
+}
+
+#copyright {
+    grid-area: copyright;
+}

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administració - Gato Rumano</title>
+    <link rel="shortcut icon" href="../resources/icons/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
+    <script src="../script.js" defer></script>
+    <script src="../script/administracio.js"></script>
+    <script src="https://kit.fontawesome.com/dcb488a0b2.js" crossorigin="anonymous"></script>
+    <script src="../script/admin_products.js" defer></script>
+    <script src="../script/theme.js" defer></script>
+</head>
+
+<body id="admin-page">
+    <div class="container">
+        <header id="header-top" class="flex">
+            <p>Purr-fect food for a purr-fect time.</p>
+            <nav>
+                <ul>
+                    <li><a href="contacte.html">Ubicació i contacte</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <header id="header-bottom" class="flex">
+            <a class="logo" href="../index.html"><img src="../resources/images/logo.png" alt="Logo El Gato Rumano"></a>
+
+            <button class="burgerbtn icon"><i class="fa-solid fa-bars"></i></button>
+            <div id="overlay"></div>
+
+            <nav>
+                <button class="closebtn"> <i class="fa-solid fa-xmark x-icon"></i></button>
+                <img src="../resources/images/espresso.webp" alt="Espresso">
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="productes.html">Productes</a></li>
+                    <li class="active-link"><a href="administracio.html">Administració</a></li>
+                    <li><a href="contacte.html">Contacte</a></li>
+                    <div class="icons flex">
+                        <li><a href="confirm.html"><i class="fa-solid fa-cart-shopping fa-lg"></i></a></li>
+                        <li><a href="login.html" id="user-icon"><i class="fa-solid fa-user fa-lg btnuser-icon"></i></a>
+                        </li>
+                        <li>
+                            <a id="darkLight">
+                                <i class="fa-solid fa-moon fa-lg to_dark_mode"></i>
+                                <i class="fa-solid fa-sun fa-lg to_light_mode"></i>
+                            </a>
+                        </li>
+                    </div>
+                </ul>
+            </nav>
+
+        </header>
+
+        <main>
+
+            <h1>Administració</h1>
+
+            <div class="login-adm">
+                <p>No ets logat</p>
+            </div>
+            <div id="tiquet-contenidor"></div>
+
+
+
+
+            <section id="admin-panel">
+                <h2>Afegir Nou Producte</h2>
+                <div class="admin-card">
+                    <form id="product-form">
+                        <input type="hidden" name="index" id="editing-index" value="-1">
+
+                        <fieldset>
+                            <legend>Informació Bàsica</legend>
+
+                            <label for="nom">Nom del producte: *</label>
+                            <input type="text" id="nom" name="nom" required>
+
+                            <label for="preu">Preu (€): *</label>
+                            <input type="number" id="preu" name="preu" step="0.01" min="0" required>
+
+                            <label for="descripcio">Descripció: *</label>
+                            <textarea id="descripcio" name="descripcio" rows="3" required></textarea>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Categoria i Imatge</legend>
+
+                            <label for="categoria">Categoria:</label>
+                            <select id="categoria" name="categoria" required>
+                                <option value="entrepans">Entrepans</option>
+                                <option value="begudes">Begudes</option>
+                                <option value="brioixeria">Brioixeria</option>
+                                <option value="snacks">Snacks</option>
+                            </select>
+
+                            <label for="imatge">Imatge del producte:</label>
+                            <input type="file" name="imatge" id="imatge" accept="image/*">
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Disponibilitat</legend>
+
+                            <label>
+                                <input type="checkbox" id="oferta" name="oferta" value="si">
+                                En Oferta
+                            </label>
+
+                            <label>Moments del dia:</label>
+                            <div class="moments-dia">
+                                <label>
+                                    <input type="checkbox" name="horario[]" value="manana" checked>
+                                    Matí
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="horario[]" value="tarde" checked>
+                                    Tarda
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="horario[]" value="noche" checked>
+                                    Nit
+                                </label>
+                            </div>
+                        </fieldset>
+
+                        <div>
+                            <button type="submit" class="btn-save">Guardar Producte</button>
+                            <button type="button" id="btn-cancel-edit">Cancel·lar Edició</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="admin-card">
+                    <h3>Llistat de Productes</h3>
+                    <div class="table-responsive">
+                        <table id="products-table">
+                            <thead>
+                                <tr>
+                                    <th>Imatge</th>
+                                    <th>Nom</th>
+                                    <th>Preu</th>
+                                    <th>Categoria</th>
+                                    <th>Descripció</th>
+                                    <th>Oferta</th>
+                                    <th>Horari</th>
+                                    <th>Accions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer id="main-footer">
+            <div id="sitemap">
+                <h4>Site Map</h4>
+                <nav>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="productes.html">Productes</a></li>
+                        <li><a href="administracio.html">Administració</a></li>
+                        <li><a href="contacte.html">Contacte</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div id="direccio">
+                <h4>On trobar-nos</h4>
+                <p>El Gato Rumano</p>
+                <p>Riera de Cirera, 57</p>
+                <p>08304 Mataró, Barcelona</p>
+            </div>
+            <div id="equip">
+                <h4>Equip El Gato Rumano</h4>
+                <p>Mar Fernandez Vidal</p>
+                <p>Hary Alexandru Potlog Potlog</p>
+                <p>Marta Llabrés Roldós</p>
+            </div>
+            <div id="copyright">
+                <h4>Legal</h4>
+                <nav>
+                    <ul>
+                        <li><a href="#">Avís legal</a></li>
+                        <li><a href="#">Política de privacitat</a></li>
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">Condicions de venta</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

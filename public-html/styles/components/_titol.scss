@@ -1,0 +1,29 @@
+.titol {
+    background-color: var(--white);
+    padding: 10px;
+
+
+    h1 {
+        font-size: 28px;
+        font-weight: normal;
+        text-wrap: wrap;
+    }
+
+    p {
+        font-size: 13px;
+    }
+
+    .title-p-grey {
+        color: var(--grey1);
+        font-size: 15px;
+        margin: 10px 0px;
+        border: 1px solid var(--grey);
+        border-width: 1px 0;
+        padding: 10px 0;
+    }
+
+    .boton {
+        text-align: right;
+    }
+
+}

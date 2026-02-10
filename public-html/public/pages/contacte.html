@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gato Rumano</title>
+    <link rel="shortcut icon" href="../resources/icons/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
+    <script src="../script.js" defer></script>
+    <script src="https://kit.fontawesome.com/dcb488a0b2.js" crossorigin="anonymous"></script>
+    <script src="../script.js" defer></script>
+    <script src="../script/theme.js" defer></script>
+</head>
+
+<body id="contact-page">
+    <div class="container">
+        <header id="header-top" class="flex">
+            <p>Purr-fect food for a purr-fect time. </p>
+            <nav>
+                <ul>
+                    <li><a href="contacte.html">Ubicació i contacte</a></li>
+                </ul>
+            </nav>
+        </header>
+        <header id="header-bottom" class="flex">
+            <a class="logo" href="../index.html"><img src="../resources/images/logo.png" alt="Logo El Gato Rumano"></a>
+
+            <button class="burgerbtn icon"><i class="fa-solid fa-bars"></i></button>
+            <div id="overlay"></div>
+
+            <nav>
+                <button class="closebtn"> <i class="fa-solid fa-xmark x-icon"></i></button>
+                <img src="../resources/images/espresso.webp" alt="Espresso">
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="productes.html">Productes</a></li>
+                    <li><a href="administracio.html">Administració</a></li>
+                    <li class="active-link"><a href="#">Contacte</a></li>
+                    <div class="icons flex">
+                        <li><a href="confirm.html"><i class="fa-solid fa-cart-shopping fa-lg"></i></a></li>
+                        <li><a href="login.html" id="user-icon"><i class="fa-solid fa-user fa-lg btnuser-icon"></i></a>
+                        </li>
+                        <li>
+                            <a id="darkLight">
+                                <i class="fa-solid fa-moon fa-lg to_dark_mode"></i>
+                                <i class="fa-solid fa-sun fa-lg to_light_mode"></i>
+                            </a>
+                        </li>
+                    </div>
+                </ul>
+            </nav>
+        </header>
+        <main id="main">
+            <div class="page-title">
+                <h1>Contacta amb nosaltres</h1>
+                <p>Estem aquí per ajudar-te</p>
+            </div>
+            <section class="contact-content">
+                <div class="info-column">
+                    <h2>On trobar-nos</h2>
+
+                    <div class="address-block">
+                        <p><i class="fa-solid fa-location-dot"></i> Riera de Cirera, 57</p>
+                        <p style="padding-left: 30px;">08304 Mataró, Barcelona</p>
+                    </div>
+
+                    <div class="address-block">
+                        <p><i class="fa-solid fa-phone"></i> +34 937 555 555</p>
+                        <p><i class="fa-solid fa-envelope"></i> hola@gatorumano.cat</p>
+                    </div>
+
+                    <div class="map-container">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2986.387922237734!2d2.4385!3d41.542!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a4c7c8c8c8c8c9%3A0x0!2sRiera%20de%20Cirera%2C%2057%2C%20Matar%C3%B3!5e0!3m2!1sen!2ses!4v1620000000000!5m2!1sen!2ses"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+
+                <div class="form-column">
+                    <h2>Envia'ns un missatge</h2>
+                    <form action="#" method="POST">
+                        <label for="nom">Nom</label>
+                        <input type="text" id="nom" name="nom" placeholder="El teu nom..." required>
+
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="El teu correu electrònic..." required>
+
+                        <label for="assumpte">Assumpte</label>
+                        <select id="assumpte" name="assumpte">
+                            <option value="general">Consulta General</option>
+                            <option value="reservas">Reserves</option>
+                            <option value="sugerencias">Suggeriments</option>
+                        </select>
+
+                        <label for="missatge">Missatge</label>
+                        <textarea id="missatge" name="missatge" rows="5" placeholder="Escriu aquí el teu missatge..."
+                            required></textarea>
+
+                        <button type="submit">Enviar</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+        <footer id="main-footer">
+            <div id="sitemap">
+                <h4>Site Map</h4>
+                <nav>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="productes.html">Productes</a></li>
+                        <li><a href="administracio.html">Administració</a></li>
+                        <li><a href="contacte.html">Contacte</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div id="direccio">
+                <h4>On trobar-nos</h4>
+                <p>El Gato Rumano</p>
+                <p>Riera de Cirera, 57 </p>
+                <p>08304 Mataró, Barcelona</p>
+            </div>
+            <div id="equip">
+                <h4>Equip El Gato Rumano</h4>
+                <p>Mar Fernandez Vidal</p>
+                <p>Hary Alexandru Potlog Potlog</p>
+                <p>Marta Llabrés Roldós</p>
+            </div>
+            <div id="copyright">
+                <h4>Legal</h4>
+                <nav>
+                    <ul>
+                        <li><a href="copyright.html">Avís legal</a></li>
+                        <li><a href="#">Política de privacitat</a></li>
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">Condicions de venta</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

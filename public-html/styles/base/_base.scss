@@ -1,0 +1,46 @@
+@use '../abstracts' as *;
+
+
+body {
+    font-family: var(--font-general);
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-titles);
+}
+
+.flex {
+    display: flex;
+}
+
+h2 {
+    font-size: 2.75rem;
+}
+
+h3 {
+    font-size: var(--font-xxl);
+}
+
+h4 {
+    font-size: var(--font-xl);
+}
+
+@media (max-width: 480px) {
+    h2 {
+        font-size: 1.75rem;
+    }
+
+    h3 {
+        font-size: var(--font-xl);
+    }
+
+    h4 {
+        font-size: var(--font-lg);
+    }
+}

@@ -1,0 +1,15 @@
+#product-page {
+    #banner {
+        height: 60vh;
+        background-position: 50%;
+        background-image: url(../../public/resources/images/club-sandwich.webp);
+        color: white;
+        text-transform: uppercase;
+        line-height: 4rem;
+        padding: var(--space-xxxxl);
+
+        @media (max-width: 1080px) {
+            height: 100%;
+        }
+    }
+}

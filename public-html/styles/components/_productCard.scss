@@ -1,0 +1,104 @@
+.product-cards {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: var(--space-md);
+
+    @media (max-width: 768px) {
+        justify-content: center;
+    }
+
+}
+
+#entrepans .product-card {
+    width: calc(25% - var(--space-md));
+    flex: 0 0 calc(25% - var(--space-md));
+
+    @media (max-width: 1080px) {
+        width: calc(50% - var(--space-md));
+        flex: 0 0 calc(50% - var(--space-md));
+    }
+
+    @media (max-width: 768px) {
+        width: calc(100% - var(--space-md));
+        flex: 0 0 calc(100% - var(--space-md));
+    }
+
+}
+
+.product-card {
+    border: 1px solid black;
+    padding: var(--space-md);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+
+    width: calc(20% - var(--space-md));
+    flex: 0 0 calc(20% - var(--space-md));
+    margin: 0;
+
+    @media (max-width: 1080px) {
+        width: calc(33.333% - var(--space-md));
+        flex: 0 0 calc(33.333% - var(--space-md));
+    }
+
+    @media (max-width: 768px) {
+        width: calc(100% - var(--space-md));
+        flex: 0 0 calc(100% - var(--space-md));
+    }
+
+
+    .descripcio {
+        font-size: var(--font-md);
+        margin-bottom: var(--space-md);
+        text-align: justify;
+    }
+
+    .preu-oferta-container {
+        width: 100%;
+        min-height: 50px;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: var(--space-md);
+    }
+
+    .preu-iva {
+        color: #6d8041;
+        font-weight: 800;
+        width: 100%;
+        text-align: right;
+        margin: 0;
+    }
+
+    .oferta-badge {
+        min-height: 25px;
+        color: #6d8041;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-top: 5px;
+    }
+
+    .iva {
+        font-size: 0.825rem;
+        color: black;
+        font-weight: normal;
+    }
+
+    h5 {
+        font-size: 1.125rem;
+        margin-bottom: var(--space-md);
+    }
+
+    img {
+        width: 100%;
+        padding: var(--space-sm);
+        background-color: #bec2c42c;
+        margin-bottom: var(--space-lg);
+    }
+
+    .cont {
+        margin-top: auto;
+        width: 100%;
+    }
+}

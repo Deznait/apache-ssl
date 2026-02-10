@@ -5,21 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gato Rumano</title>
-    <link rel="shortcut icon" href="resources/icons/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="../resources/icons/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
         rel="stylesheet">
-    <script src="script.js" defer></script>
-    <script src="script/carousel.js" defer></script>
-    <script src="script/ofertes.js" defer></script>
-    <script src="script/theme.js" defer></script>
+    <script src="../script/productes.js" defer></script>
+    <script src="../script.js" defer></script>
+    <script src="../script/theme.js" defer></script>
     <script src="https://kit.fontawesome.com/dcb488a0b2.js" crossorigin="anonymous"></script>
 </head>
 
-<body id="main-page">
+<body id="product-page">
     <div class="container">
         <header id="header-top" class="flex">
             <p>Purr-fect food for a purr-fect time. </p>
@@ -30,22 +29,22 @@
             </nav>
         </header>
         <header id="header-bottom" class="flex">
-            <a class="logo" href="#"><img src="resources/images/logo.png" alt="Logo El Gato Rumano"></a>
+            <a class="logo" href="../index.html"><img src="../resources/images/logo.png" alt="Logo El Gato Rumano"></a>
             <button class="burgerbtn icon"><i class="fa-solid fa-bars"></i></button>
             <div id="overlay"></div>
 
             <nav>
                 <button class="closebtn"> <i class="fa-solid fa-xmark x-icon"></i></button>
-                <img src="resources/images/espresso.webp" alt="Espresso">
+                <img src="../resources/images/espresso.webp" alt="Espresso">
                 <ul>
-                    <li class="active-link"><a href="#">Home</a></li>
-                    <li><a href="pages/productes.html">Productes</a></li>
-                    <li><a href="pages/administracio.html">Administració</a></li>
-                    <li><a href="pages/contacte.html">Contacte</a></li>
+                    <li><a href="../index.html">Home</a></li>
+                    <li class="active-link"><a href="#">Productes</a></li>
+                    <li><a href="administracio.html">Administració</a></li>
+                    <li><a href="contacte.html">Contacte</a></li>
                     <div class="icons flex">
-                        <li><a href="pages/confirm.html"><i class="fa-solid fa-cart-shopping fa-lg"></i></a></li>
-                        <li><a href="pages/login.html" id="user-icon"><i
-                                    class="fa-solid fa-user fa-lg btnuser-icon"></i></a></li>
+                        <li><a href="confirm.html"><i class="fa-solid fa-cart-shopping fa-lg"></i></a></li>
+                        <li><a href="login.html" id="user-icon"><i class="fa-solid fa-user fa-lg btnuser-icon"></i></a>
+                        </li>
                         <li>
                             <a id="darkLight">
                                 <i class="fa-solid fa-moon fa-lg to_dark_mode"></i>
@@ -55,32 +54,49 @@
                     </div>
                 </ul>
             </nav>
-        </header>
-        <main>
-            <section id="main">
-                <div class="carousel">
-                    <button class="botonFlecha retroceder"><i class="fa fa-solid fa-angle-left fa-2xl"></i></button>
-                    <div id="imagen"></div>
-                    <div id="imageCover"></div>
-                    <h1 id="titulos">Benvinguts al Gato Rumano</h1>
-                    <button class="botonFlecha avanzar"><i class="fa fa-solid fa-angle-right fa-2xl"></i></button>
-                </div>
 
-                <section id="ofertes">
-                    <h2 id="titolOfertes">Ofertes especials de la setmana</h2>
+        </header>
+
+        <main>
+            <section id="banner">
+                <h1>La taula sempre<br>llesta per a <span>tu</span></h1>
+            </section>
+            <section id="productes">
+                <h2>Els nostres productes</h2>
+                <section id="entrepans">
+                    <h3>Entrepans</h3>
+                    <div class="tab">
+                        <button class="tablinks btnfreds active" onclick="openBocata(event, 'freds')">Freds</button>
+                        <button class="tablinks btncalents" onclick="openBocata(event, 'calents')">Calents</button>
+                    </div>
+
+                    <div id="freds" class="tabcontent">
+                        <h4>Freds</h4>
+                        <p>Els nostres entrepans <span class="tipus-entrepa">freds!</span></p>
+
+                        <div class="product-cards flex">
+
+                        </div>
+                    </div>
+                    <div id="calents" class="tabcontent">
+                        <h4>Calents</h4>
+                        <p>Els nostres entrepans <span class="tipus-entrepa">calents!</span></p>
+                        <div class="product-cards flex">
+
+                        </div>
+                    </div>
                 </section>
             </section>
         </main>
-
         <footer id="main-footer">
             <div id="sitemap">
                 <h4>Site Map</h4>
                 <nav>
                     <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="pages/productes.html">Productes</a></li>
-                        <li><a href="pages/administracio.html">Administració</a></li>
-                        <li><a href="pages/contacte.html">Contacte</a></li>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="#">Productes</a></li>
+                        <li><a href="administracio.html">Administració</a></li>
+                        <li><a href="contacte.html">Contacte</a></li>
                     </ul>
                 </nav>
             </div>
@@ -101,12 +117,14 @@
                 <h4>Legal</h4>
                 <nav>
                     <ul>
-                        <li><a href="pages/copyright.html">Avís legal</a></li>
+                        <li><a href="copyright.html">Avís legal</a></li>
                         <li><a href="#">Política de privacitat</a></li>
                         <li><a href="#">Cookies</a></li>
                         <li><a href="#">Condicions de venta</a></li>
+
                     </ul>
                 </nav>
+
             </div>
         </footer>
     </div>

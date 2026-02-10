@@ -1,0 +1,136 @@
+#header-top {
+
+    nav {
+        display: flex;
+        flex-direction: row;
+    }
+
+    ul {
+        list-style: none;
+        gap: 15px;
+        display: flex;
+        align-items: center;
+
+        a {
+            text-decoration: none;
+        }
+    }
+}
+
+
+#header-bottom {
+    nav {
+        display: flex;
+        flex-direction: row;
+
+        @media (max-width: 768px) {
+            display: block;
+        }
+
+        img {
+            display: none;
+
+            @media (max-width: 768px) {
+                display: block;
+                width: 100%;
+                padding: var(--space-xl);
+            }
+        }
+
+
+        ul {
+            list-style: none;
+            gap: 15px;
+            display: flex;
+            align-items: center;
+
+
+            @media (max-width: 768px) {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+                padding: var(--space-xl);
+                justify-content: center;
+
+                li {
+                    border-bottom: 2px solid var(--green1);
+                    width: 100%;
+                    margin-bottom: var(--space-sm);
+                }
+
+                .icons {
+                    li {
+
+                        border-bottom: none;
+                    }
+                }
+            }
+
+            a {
+                text-decoration: none;
+                display: inline-block;
+                //color: black;
+            }
+        }
+
+        @media (max-width: 768px) {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            right: 0;
+            overflow: hidden;
+            padding-top: 4.375rem;
+            transition: 0.5s;
+            overflow-y: scroll;
+            //background-color: white;
+            background-color: var(--backgroud-color-body);
+            color: var(--color-text);
+        }
+
+    }
+}
+
+#main-footer {
+    nav {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+
+#darkLight {
+    cursor: pointer;
+
+    i {
+        color: var(--color-text);
+        transition: color 0.2s ease;
+    }
+
+    &:hover i {
+        color: var(--green1);
+    }
+
+    // Por defecto muestra la luna (modo light)
+    .to_dark_mode {
+        display: inline-block;
+    }
+
+    .to_light_mode {
+        display: none;
+    }
+}
+
+// Cuando está en modo oscuro
+body.darkmode {
+    #darkLight {
+        .to_dark_mode {
+            display: none;
+        }
+
+        .to_light_mode {
+            display: inline-block;
+        }
+    }
+}

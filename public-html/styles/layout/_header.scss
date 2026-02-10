@@ -1,0 +1,93 @@
+#header-top {
+    background-color: var(--grey1);
+    color: white;
+    padding: var(--space-sm) var(--space-md);
+
+    a {
+        color: white;
+    }
+}
+
+#header-bottom {
+    z-index: 1000;
+    position: sticky;
+    top: 0;
+    background-color: var(--backgroud-color-body);
+    padding: var(--space-sm) var(--space-xxxxl);
+    box-shadow: 0px -1px 8px 0px var(--grey1);
+
+    #darkLight {
+        margin: 0 15%;
+    }
+
+    @media (max-width: 1024px) {
+        padding: var(--space-xs);
+    }
+
+    @media (max-width: 768px) {
+        #overlay {
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            background-color: #00000066;
+            pointer-events: auto;
+        }
+
+        padding: var(--space-xs);
+    }
+
+
+    ul {
+
+        li {
+            margin-right: var(--space-lg);
+
+            a {
+                font-size: 1.125rem;
+                text-decoration: none;
+                display: inline-block;
+                color: var(--color-text);
+                //color: black;
+                border-bottom: 2px solid transparent;
+                transition: 0.2s ease all;
+
+                @media (max-width: 768px) {
+                    font-weight: 600;
+                }
+
+                font-weight: 600;
+
+                &:hover {
+                    color: var(--green1);
+                    font-weight: 700;
+                }
+            }
+
+            &.active-link {
+                a {
+                    color: var(--green1);
+                    font-weight: 800;
+                    border-bottom: 2px solid var(--green1);
+                    display: block;
+                    width: fit-content;
+
+                    @media (max-width: 768px) {
+                        color: var(--green1);
+                        border: none;
+
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+#header-top,
+#header-bottom {
+    justify-content: space-between;
+}

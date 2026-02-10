@@ -1,0 +1,23 @@
+{
+    "productes": [
+        {
+            "nom": "Napolitana de xocolata",
+            "preu": 1.1,
+            "quantitat": 1
+        },
+        {
+            "nom": "Magdalena",
+            "preu": 0.85,
+            "quantitat": 1
+        },
+        {
+            "nom": "Entrap\u00e0 de xori\u00e7o",
+            "preu": 3,
+            "quantitat": 2
+        }
+    ],
+    "total": 7.95,
+    "username": "Mar",
+    "usermail": "marfernandezvidal@gmail.com",
+    "usertel": "123456789"
+}
