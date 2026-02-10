@@ -1,7 +1,7 @@
 # Use an official PHP image with Apache
 FROM php:8.2-apache
 
-# Install Nano (optional)
+# Install Nano i apache2-utils
 RUN apt-get update && \
     apt-get install -y nano && \
     apt-get install -y apache2-utils && \
