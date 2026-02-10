@@ -4,6 +4,7 @@ FROM php:8.2-apache
 # Install Nano (optional)
 RUN apt-get update && \
     apt-get install -y nano && \
+    apt-get install -y apache2-utils && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy SSL certificate and key
