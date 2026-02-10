@@ -7,6 +7,9 @@ RUN apt-get update && \
     apt-get install -y apache2-utils && \
     rm -rf /var/lib/apt/lists/*
 
+# Copy PHP configuration
+COPY php-config.ini /usr/local/etc/php/conf.d/custom.ini
+
 # Copy SSL certificate and key
 COPY lacantina.crt /etc/ssl/certs/lacantina.crt
 COPY lacantina.key /etc/ssl/private/lacantina.key

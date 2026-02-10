@@ -7,4 +7,5 @@ services:
     volumes:
       - ./public-html:/var/www/html
       - ./lacantina-vhosts.conf:/etc/apache2/sites-available/my-ssl.conf:ro
+      - ./logs/apache:/var/log/apache2/lacantina
     container_name: lacantina-web
