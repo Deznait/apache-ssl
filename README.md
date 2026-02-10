@@ -148,8 +148,18 @@ Puedes proteger directorios específicos usando autenticación HTTP básica.
 
 ### Paso 1: Generar archivo .htpasswd
 
-**Opción A: Con htpasswd (recomendado)**
+**Opción A: Desde el contenedor Docker (recomendado)**
 
+El contenedor ya tiene `apache2-utils` instalado mediante el Dockerfile, así que puedes generar el archivo directamente:
+```bash
+# Crear archivo con primer usuario
+docker-compose exec web htpasswd -c /var/www/html/.htpasswd admin
+
+# Añadir más usuarios (sin -c para no sobrescribir)
+docker-compose exec web htpasswd /var/www/html/.htpasswd usuario2
+```
+
+**Opción B: Desde tu máquina local (si tienes htpasswd instalado)**
 ```bash
 # Instalar htpasswd si no lo tienes:
 # Ubuntu/Debian: sudo apt-get install apache2-utils
@@ -163,14 +173,13 @@ htpasswd -c .htpasswd admin
 htpasswd .htpasswd usuario2
 ```
 
-**Opción B: Generar hash online**
+**Opción C: Generar hash online**
 
 1. Ve a: https://hostingcanada.org/htpasswd-generator/
 2. Introduce usuario y contraseña
 3. Copia el resultado en `.htpasswd`
 
-**Opción C: Con OpenSSL**
-
+**Opción D: Con OpenSSL**
 ```bash
 # Generar hash
 openssl passwd -apr1
@@ -182,7 +191,6 @@ openssl passwd -apr1
 ### Paso 2: Configurar protección en lacantina-vhosts.conf
 
 Añade un bloque `<Directory>` para el directorio que quieres proteger:
-
 ```apache
 # Ejemplo: Proteger /admin
 <Directory "/var/www/html/public/admin">
@@ -194,7 +202,6 @@ Añade un bloque `<Directory>` para el directorio que quieres proteger:
 ```
 
 ### Paso 3: Reiniciar el contenedor
-
 ```bash
 docker-compose restart
 ```
@@ -205,6 +212,22 @@ Accede al directorio protegido (ej: `https://localhost/admin`) y deberías ver u
 
 ### Comandos útiles para htpasswd
 
+**Desde el contenedor:**
+```bash
+# Ver usuarios en .htpasswd
+docker-compose exec web cat /var/www/html/.htpasswd | cut -d: -f1
+
+# Cambiar contraseña de usuario existente
+docker-compose exec web htpasswd /var/www/html/.htpasswd usuario_existente
+
+# Eliminar usuario
+docker-compose exec web htpasswd -D /var/www/html/.htpasswd usuario_a_eliminar
+
+# Verificar hash de contraseña
+docker-compose exec web htpasswd -v /var/www/html/.htpasswd usuario
+```
+
+**Desde tu máquina local (si tienes el archivo .htpasswd local):**
 ```bash
 # Ver usuarios en .htpasswd
 cat .htpasswd | cut -d: -f1
@@ -222,7 +245,6 @@ htpasswd -v .htpasswd usuario
 ### Proteger múltiples directorios
 
 Puedes usar el mismo archivo `.htpasswd` para varios directorios:
-
 ```apache
 <Directory "/var/www/html/public/admin">
     AuthType Basic
@@ -240,7 +262,6 @@ Puedes usar el mismo archivo `.htpasswd` para varios directorios:
 ```
 
 O usar diferentes archivos `.htpasswd` para cada área:
-
 ```apache
 <Directory "/var/www/html/public/admin">
     AuthUserFile "/var/www/html/.htpasswd-admin"
